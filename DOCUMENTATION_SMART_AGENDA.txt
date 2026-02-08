@@ -1,0 +1,66 @@
+SMART_AGENDA - Documentação Detalhada
+
+1) Visão geral
+- Arquitetura: aplicação organizada em camadas `application`, `domain`, `infrastructure` e `interfaces` para separar regras de negócio, serviços, persistência e exposição de API.
+- Banco de dados: SQLite local (`smartagenda.db`) usado via SQLAlchemy (engine e `SessionLocal` em `app/infrastructure/db/database.py`).
+
+2) Estrutura de pastas (resumida)
+- `app/`
+  - `main.py` : ponto de entrada da FastAPI (carrega configurações, inclui routers e inicializa DB quando necessário).
+  - `application/` : serviços de aplicação (ex.: `services/services.py` com `AgendaService`).
+  - `domain/` : entidades e regras de negócio (ex.: `entities.py`, `events.py`, `interfaces.py`).
+  - `infrastructure/`
+    - `db/` : configuração do SQLAlchemy, modelos ORM e repositórios (`database.py`, `models.py`, `repositories.py`).
+    - `notifications/` : adaptadores de notificação (ex.: `email_adapter.py`, `whatsapp_adapter.py`).
+  - `interfaces/`
+    - `api/` : definição das rotas e schemas (`router.py`, `schemas.py`).
+
+- Arquivos auxiliares: `requirements.txt`, `alembic/` (migrations), `tests/`.
+
+3) Funções e responsabilidades principais
+- `app/main.py`:
+  - Inicializa a instância FastAPI.
+  - Inclui `router` de `app/interfaces/api/router.py`.
+  - Não contém handlers duplicados de `health_check` (conforme mudanças aplicadas pelo autor).
+
+- `app/interfaces/api/router.py`:
+  - Define `APIRouter` com endpoints de eventos (`POST /eventos/`, `GET /eventos/`) e possivelmente um `GET /health` local.
+  - Constrói instâncias de repositório e serviço para cada request quando necessário.
+
+- `app/infrastructure/db/database.py`:
+  - Cria engine SQLAlchemy, `SessionLocal` e `Base` para modelos.
+  - Configuração típica para SQLite com `connect_args={"check_same_thread": False}`.
+
+- `app/infrastructure/db/models.py` e `repositories.py`:
+  - Definem modelos ORM (`EventoModel`, `LembreteModel`) e implementam `SQLAlchemyEventoRepository` para persistência.
+
+- `app/domain/entities.py` e `app/domain/events.py`:
+  - Representam as entidades do domínio (`Evento`, `Lembrete`) e eventos de domínio quando aplicável.
+
+- `app/application/services/services.py`:
+  - Contém `AgendaService` com regras para criar/listar eventos e acionar notificadores.
+
+- `app/infrastructure/notifications/`:
+  - Adaptadores para envio de notificações (ex.: console, email, WhatsApp). Para produção, prefira implementações assíncronas ou filas.
+
+4) Rotas expostas (exemplos)
+- `POST /eventos/` : cria um evento (aceita payload com dados do evento e lembretes).
+- `GET /eventos/` : lista eventos existentes.
+- `GET /health` : health-check (se presente em `router.py`).
+
+5) Observações importantes
+- Caso haja duplicidade de `operationId` no OpenAPI, verifique nomes de funções idênticos em diferentes módulos (renomeie handlers ou use `operation_id`).
+- Evite remover `__init__.py` sem revisão — pode quebrar imports relativos.
+- Recomenda-se usar testes automatizados e configurar um ambiente virtual antes de executar o app.
+
+6) Como rodar (resumido)
+1. Ative seu ambiente virtual.
+2. `pip install -r requirements.txt`
+3. `uvicorn app.main:app --reload`
+
+7) Próximos passos sugeridos
+- Converter esta documentação para `README.md` ou `docs/` em Markdown.
+- Adicionar exemplos de payloads das rotas em formato cURL ou HTTPie.
+- Integrar testes unitários/integration na CI.
+
+Se quiser, converto este arquivo para Markdown e adiciono exemplos de requests e respostas.
