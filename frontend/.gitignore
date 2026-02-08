@@ -1,0 +1,28 @@
+# Dependências
+node_modules
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build
+dist
+dist-ssr
+*.local
+
+# IDE
+.vscode
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Variáveis de ambiente
+.env
+.env.local
+.env.*.local
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
