@@ -5,30 +5,30 @@
 
 /* Estilos globais da aplicação */
 body {
-  @apply bg-gray-50 text-gray-900;
+    @apply bg-gray-50 text-gray-900;
 }
 
 /* Estilo para o container principal */
 .container {
-  @apply max-w-4xl mx-auto px-4;
+    @apply max-w-4xl mx-auto px-4;
 }
 
 /* Estilo para cards/caixas */
 .card {
-  @apply bg-white rounded-lg shadow-md p-6;
+    @apply bg-white rounded-lg shadow-md p-6;
 }
 
 /* Estilo para botões primários */
 .btn-primary {
-  @apply bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors;
+    @apply bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors;
 }
 
 /* Estilo para botões secundários */
 .btn-secondary {
-  @apply bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors;
+    @apply bg-gray-200 text-gray-800 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors;
 }
 
 /* Estilo para botões de perigo */
 .btn-danger {
-  @apply bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors;
+    @apply bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors;
 }
